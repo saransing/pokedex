@@ -9,14 +9,13 @@ import PokemonDetail from './components/PokemonDetail';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/pokedex"> {/* Add the basename here */}
       <div className="App">
         <NavBar />
         <Routes>
           <Route path="/" element={<PokemonList />} />
           <Route path="/pokemon/:pokemonId" element={<PokemonDetail />} />
-          <Route path="/about" element={<About />} /> {/* */}
-
+          <Route path="/about" element={<About />} />
         </Routes>
       </div>
     </Router>
