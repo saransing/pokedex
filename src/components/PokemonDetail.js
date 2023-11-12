@@ -1,23 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/PokemonDetail.css'; // Assume you have CSS for styling
+import { useParams, useNavigate } from 'react-router-dom';
+import '../styles/PokemonDetail.css';
 
-const PokemonDetail = ({ pokemonId }) => {
+
+
+const PokemonDetail = () => {
+    const { pokemonId } = useParams();
+    const navigate = useNavigate();
     const [pokemonDetails, setPokemonDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const handleBackClick = () => {
+        navigate(-1);
+    };
+
+    console.log("Extracted pokemonId from URL:", pokemonId);
+
     useEffect(() => {
         const fetchPokemonDetails = async () => {
+
+            if (!pokemonId) {
+
+                console.error('No Pokemon ID is provided');
+                return;
+            }
+
+
             try {
-                setLoading(true);
-                const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+                const url = `https://pokeapi.co/api/v2/pokemon/${pokemonId}`;
+                console.log('Fetching from URL:', url);
+                const response = await fetch(url);
                 if (!response.ok) {
-                    throw new Error('Failed to fetch pokemon details');
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const details = await response.json();
                 setPokemonDetails(details);
             } catch (e) {
-                setError(e.message);
+                console.error('There was an error fetching the Pokémon details:', e);
+                setError(e.toString());
             } finally {
                 setLoading(false);
             }
@@ -26,28 +47,54 @@ const PokemonDetail = ({ pokemonId }) => {
         fetchPokemonDetails();
     }, [pokemonId]);
 
+    if (!pokemonId) return <p>No Pokémon ID provided.</p>;
     if (loading) return <p>Loading details...</p>;
     if (error) return <p>Error fetching details: {error}</p>;
-    if (!pokemonDetails) return null; // In case there are no details
+    if (!pokemonDetails) return <p>Unable to load Pokémon details.</p>;
 
     return (
         <div className="pokemon-detail">
-            <h2>{pokemonDetails.name}</h2>
+            <button onClick={handleBackClick} className="back-button">Back to List</button>
+            <h1 className="pokemon-name">{pokemonDetails.name}</h1>
             <img
-                src={pokemonDetails.sprites.front_default}
-                alt={pokemonDetails.name}
+                className="pokemon-image"
+                src={pokemonDetails.sprites.other['official-artwork'].front_default}
+                alt={`Official artwork of ${pokemonDetails.name}`}
             />
-            <div className="pokemon-stats">
-                {/* Map through the stats array */}
-                {pokemonDetails.stats.map(stat => (
-                    <div key={stat.stat.name}>
-                        {stat.stat.name}: {stat.base_stat}
-                    </div>
-                ))}
+
+            <div className="pokemon-types">
+                <h2>Types</h2>
+                <ul>
+                    {pokemonDetails.types.map((typeInfo) => (
+                        <li key={typeInfo.type.name}>{typeInfo.type.name}</li>
+                    ))}
+                </ul>
             </div>
-            {/* ... include other details you want to display */}
+
+            <div className="pokemon-abilities">
+                <h2>Abilities</h2>
+                <ul>
+                    {pokemonDetails.abilities.map((abilityInfo) => (
+                        <li key={abilityInfo.ability.name}>{abilityInfo.ability.name}</li>
+                    ))}
+                </ul>
+            </div>
+
+            <div className="pokemon-stats">
+                <h2>Stats</h2>
+                <ul>
+                    {pokemonDetails.stats.map((statInfo) => (
+                        <li key={statInfo.stat.name}>
+                            {statInfo.stat.name}: {statInfo.base_stat}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+
         </div>
     );
+
 };
 
 export default PokemonDetail;

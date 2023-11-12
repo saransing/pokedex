@@ -1,73 +1,72 @@
-/* PokemonList.css */
-
 .PokemonList {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    /* Creates 4 columns */
-    gap: 20px;
-    /* Space between items */
-    padding: 0;
-    margin: 0;
-    list-style: none;
+    gap: 40px;
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+    margin-top: 90px;
 }
 
 .PokemonList-item {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    /* Changes the mouse cursor on hover */
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 8px;
     transition: transform 0.2s ease;
-    /* Smooth transform on hover */
     border: 1px solid #ccc;
-    /* Slight border for definition */
+    background-color: #f0f0f0;
 }
 
-/* Thematic background colors for individual Pokémon items */
 .PokemonList-item:nth-child(4n+1) {
     background-color: #ffdede;
-    /* Light red for fire types */
 }
 
 .PokemonList-item:nth-child(4n+2) {
     background-color: #def3fd;
-    /* Light blue for water types */
 }
 
 .PokemonList-item:nth-child(4n+3) {
     background-color: #fdfdde;
-    /* Light yellow for electric types */
 }
 
 .PokemonList-item:nth-child(4n) {
     background-color: #d7fde8;
-    /* Light green for grass types */
 }
 
-/* Hover effect */
 .PokemonList-item:hover {
     transform: scale(1.05);
-    /* Scales item for a clickable effect */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    /* Adds shadow for depth */
 }
 
 .PokemonList-number {
-    margin-bottom: 10px;
     font-weight: bold;
 }
 
 .PokemonList-name {
-    font-size: 1.1em;
-    margin-bottom: 10px;
+    margin: 0 10px;
 }
 
 .PokemonList img {
-    height: 80px;
-    /* Adjust size as needed */
-    width: auto;
-    margin-bottom: 10px;
+    max-width: 100px;
+    height: auto;
+}
+
+@media (max-width: 1024px) {
+    .PokemonList {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .PokemonList {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .PokemonList {
+        grid-template-columns: 1fr;
+    }
 }
