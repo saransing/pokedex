@@ -1,0 +1,29 @@
+.pokemon-detail {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pokemon-detail h2 {
+    text-transform: capitalize;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.pokemon-detail img {
+    display: block;
+    margin: 0 auto;
+    height: 150px;
+}
+
+.pokemon-stats {
+    margin-top: 20px;
+}
+
+.pokemon-stats div {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
